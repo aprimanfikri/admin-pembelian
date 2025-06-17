@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin Pembelian</title>
+  </head>
+  <body class="p-6 bg-gray-100 text-sm">
+    <div class="max-w-3xl mx-auto bg-white shadow-md p-4 rounded">
+      <h1 class="text-xl font-bold mb-4">Input Pembelian Produk</h1>
+
+      <form method="POST" action="/beli" class="flex gap-2 mb-6">
+        <select name="produkId" class="border p-2 rounded w-full">
+          <% produk.forEach(p => { %>
+          <option value="<%= p.id %>">
+            <%= p.nama %> (Stok: <%= p.stok?.jumlah %>)
+          </option>
+          <% }) %>
+        </select>
+        <input
+          type="number"
+          name="jumlah"
+          required
+          class="border p-2 w-24"
+          placeholder="Jumlah"
+        />
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Beli</button>
+      </form>
+
+      <h2 class="text-lg font-semibold mb-2">Riwayat Pembelian</h2>
+      <table class="table-auto w-full border border-gray-300">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="p-2">Produk</th>
+            <th>Jumlah</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% pembelian.forEach(p => { %>
+          <tr class="border-t text-center">
+            <td class="p-2"><%= p.produk.nama %></td>
+            <td><%= p.jumlah %></td>
+            <td><%= p.canceled ? 'Dibatalkan' : 'Aktif' %></td>
+            <td>
+              <% if (!p.canceled) { %>
+              <form method="POST" action="/cancel/<%= p.id %>">
+                <button class="bg-red-500 text-white px-3 py-1 rounded">
+                  Cancel
+                </button>
+              </form>
+              <% } %>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
