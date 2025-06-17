@@ -6,9 +6,9 @@ bun install
 
 2. Setup Database (SQLite)
 
-   ```bash
-   bun run db:setup
-   ```
+```bash
+bun run db:setup
+```
 
 3. Run the app
 
